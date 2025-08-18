@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>AdminLTE v4 | Formulir Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <meta name="title" content="AdminLTE v4 | Formulir Blog" />
+    <meta name="author" content="ColorlibHQ" />
+    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard." />
+    <meta name="keywords" content="bootstrap 5, bootstrap, dashboard, etc." />
+    <meta name="supported-color-schemes" content="light dark" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{/admin/css/adminlte.css}"/>
+</head>
+<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
+<div class="app-wrapper">
+    <div th:replace="~{admin/fragments/head :: head}"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+    <main class="app-main">
+        <div class="app-content-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6"><h3 class="mb-0">Formulir Blog</h3></div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Formulir Blog</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Tambah/Edit Blog</h3>
+                            </div>
+                            <form th:action="@{/admin/blog/save}" th:object="${blogFormDto}" method="post" enctype="multipart/form-data">
+                                <div class="card-body">
+                                    <input type="hidden" th:field="*{id}" />
+
+                                    <div class="form-group">
+                                        <label for="title">Judul</label>
+                                        <input type="text" th:field="*{title}" id="title" class="form-control" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description">Konten</label>
+                                        <textarea th:field="*{description}" id="description" class="form-control" rows="10" required></textarea>
+                                    </div>
+
+                                    <div class="form-group" th:if="${blogFormDto.iconUrl != null}">
+                                        <label>Gambar Saat Ini</label>
+                                        <br>
+                                        <img th:src="@{${blogFormDto.iconUrl}}" alt="Blog Image" style="max-width: 200px; height: auto;" class="img-thumbnail" />
+                                        <input type="hidden" th:field="*{iconUrl}"  />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="iconFile">Upload Gambar</label>
+                                        <input type="file" id="iconFile" name="iconFile" class="form-control-file" required/>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <a th:href="@{/admin/blog}" class="btn btn-secondary">Batal</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/admin/js/adminlte.js}"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+<h1>Selamat Datang di Dashboard Admin</h1>
+<p>Ini adalah halaman CMS kamu.</p>
+<ul>
+    <li><a th:href="@{/admin/about}">Kelola About</a></li>
+    <li><a th:href="@{/admin/jasa}">Kelola Jasa</a></li>
+    <li><a th:href="@{/admin/product}">Kelola Product</a></li>
+    <li><a th:href="@{/admin/testiCustomer}">Kelola Testimoni Pelanggan</a></li>
+    <li><a th:href="@{/admin/contactInfo}">Kelola Info Kontak</a></li>
+</ul>
+<form th:action="@{/logout}" method="post" style="display:inline;">
+    <button type="submit" class="nav-link btn btn-link" style="color:white; text-decoration:none;">
+        <i class="fa-solid fa-right-from-bracket me-2"></i>
+        Logout
+    </button>
+</form>
+</body>
+</html>

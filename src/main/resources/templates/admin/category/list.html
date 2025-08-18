@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>AdminLTE v4 | Daftar Produk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+  <meta name="title" content="AdminLTE v4 | Daftar Produk" />
+  <meta name="author" content="ColorlibHQ" />
+  <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard." />
+  <meta name="keywords" content="bootstrap 5, bootstrap, dashboard, etc." />
+  <meta name="supported-color-schemes" content="light dark" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" th:href="@{/admin/css/adminlte.css}"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css" integrity="sha256-4MX+61mt9NVvvuPjUWdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css" integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" />
+</head>
+<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
+<div class="app-wrapper">
+  <div th:replace="~{admin/fragments/head :: head}"></div>
+
+  <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+  <main class="app-main">
+    <div class="app-content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6"><h3 class="mb-0">Daftar Category</h3></div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-end">
+              <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Category</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-content">
+      <div class="container-fluid">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Tabel Category</h3>
+            <div class="card-tools">
+              <a th:href="@{/admin/category/form}" class="btn btn-sm btn-success">
+                <i class="bi bi-plus-circle"></i> Tambah Category
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Nama Category</th>
+                <th style="width: 150px">Aksi</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="category, iterStat : ${categories}">
+                <td th:text="${iterStat.count}">1.</td>
+                <td th:text="${category.name}"></td>
+                <td>
+                  <a th:href="@{/}" class="btn btn-sm btn-primary">
+                    <i class="bi bi-pencil-square"></i> Edit
+                  </a>
+                  <a th:href="@{/}" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus category ini?');">
+                    <i class="bi bi-trash"></i> Hapus
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </main>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/admin/js/adminlte.js}"></script>
+</body>
+</html>

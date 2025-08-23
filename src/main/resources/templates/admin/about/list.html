@@ -49,11 +49,7 @@
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Tabel About Us</h3>
-                            <div class="card-tools">
-                                <a th:href="@{/admin/about/form}" class="btn btn-sm btn-success">
-                                    <i class="bi bi-plus-circle"></i> Tambah
-                                </a>
-                            </div>
+
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered table-striped">
@@ -61,8 +57,14 @@
                                 <tr>
                                     <th style="width: 10px">#</th>
                                     <th>Nama Perusahaan</th>
+                                    <th>Slogan</th>
+                                    <th>Deskripsi</th>
                                     <th>Misi</th>
                                     <th>Visi</th>
+                                    <th>Alamat</th>
+                                    <th>Email</th>
+                                    <th>Telepon</th>
+                                    <th>Logo</th>
                                     <th style="width: 100px">Aksi</th>
                                 </tr>
                                 </thead>
@@ -70,8 +72,16 @@
                                 <tr th:each="about, iStat : ${aboutList}">
                                     <td th:text="${iStat.count}">1.</td>
                                     <td th:text="${about.companyname}">Nama Perusahaan</td>
-                                    <td th:text="${about.mission}">Misi Perusahaan</td>
-                                    <td th:text="${about.vision}">Visi Perusahaan</td>
+                                    <td th:text="${about.slogan}">Slogan</td>
+                                    <td th:text="${about.description}">Deskripsi</td>
+                                    <td th:text="${about.mission}">Misi</td>
+                                    <td th:text="${about.vision}">Visi</td>
+                                    <td th:text="${about.address}">Alamat</td>
+                                    <td th:text="${about.contactEmail}">Email</td>
+                                    <td th:text="${about.phone}">Telepon</td>
+                                    <td>
+                                        <img th:src="@{${about.logoUrl}}" alt="Logo" style="max-height:50px;">
+                                    </td>
                                     <td>
                                         <a th:href="@{/admin/about/form(id=${about.id})}" class="btn btn-sm btn-info">
                                             <i class="bi bi-pencil-square"></i> Edit

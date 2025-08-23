@@ -1,8 +1,16 @@
 
 -- Memasukkan data awal ke tabel about_us
 -- Hanya satu entri yang dibutuhkan untuk data perusahaan
-INSERT INTO aboutus (companyname, mission, vision) VALUES
-('Nama Perusahaan Anda', 'Misi perusahaan Anda di sini.', 'Visi perusahaan Anda di sini.');
+INSERT INTO aboutus (companyname, mission, vision, description, logo_url, contact_email, address, phone, slogan) VALUES
+('PT. Alkes Medika Sejahtera',
+     'Memberikan pelayanan terbaik dalam penyediaan alat kesehatan berkualitas.',
+     'Menjadi perusahaan distribusi alat kesehatan terkemuka di Indonesia.',
+     'PT. Alkes Medika Sejahtera berdiri sejak 2020 dan berkomitmen menghadirkan produk alat kesehatan terpercaya, aman, dan terjangkau untuk masyarakat Indonesia.',
+     '/images/logo.png',
+     'info@alkesmedika.co.id',
+     'Jl. Raya Citeureup No.123, Bogor, Jawa Barat, Indonesia',
+     '+62-812-3456-7890',
+     'Sehat Bersama Kami');
 
 
 INSERT INTO admin (username, password, role)

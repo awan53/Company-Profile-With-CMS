@@ -24,7 +24,7 @@ public class AboutService {
     }
     public About saveAbout(About about) {
         // Validasi atau logika bisnis tambahan dapat ditambahkan di sini
-
+        aboutRepository.save(about);
         return aboutRepository.save(about);
     }
 
@@ -32,7 +32,7 @@ public class AboutService {
         return aboutRepository.findAll().stream().findFirst().orElse(null);
     }
 
-    public void deletAbout(Long id) {
+    public void deleteAbout(Long id) {
         aboutRepository.deleteById(id);
     }
 

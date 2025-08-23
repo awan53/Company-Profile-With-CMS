@@ -11,10 +11,18 @@ CREATE TABLE category(
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='about_us' AND xtype='U')
 CREATE TABLE aboutus(
-    id BIGINT IDENTITY(1,1) PRIMARY KEY,
-    companyname VARCHAR(255) NOT NULL,
-    mission VARCHAR(MAX) NOT NULL,
-    vision VARCHAR(MAX) NOT NULL
+       id BIGINT IDENTITY(1,1) PRIMARY KEY,
+       companyname NVARCHAR(255) NOT NULL,
+       mission NVARCHAR(MAX) NULL,
+       vision NVARCHAR(MAX) NULL,
+       description NVARCHAR(MAX) NULL,
+       logo_url NVARCHAR(255) NULL,
+       contact_email NVARCHAR(255) NULL,
+       address NVARCHAR(500) NULL,
+       phone VARCHAR(20) NULL,
+       slogan NVARCHAR(255) NULL,
+       created_at DATETIME DEFAULT GETDATE(),
+       updated_at DATETIME DEFAULT GETDATE()
 );
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='product' AND xtype='U')

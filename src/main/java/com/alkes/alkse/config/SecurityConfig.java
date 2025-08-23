@@ -1,22 +1,28 @@
 package com.alkes.alkse.config;
-import com.alkes.alkse.model.Admin;
-import com.alkes.alkse.config.SecurityConfig;
-import com.alkes.alkse.service.AdminService;
+
+import com.alkes.alkse.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
 
 public class SecurityConfig {
-    private final AdminService adminService;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfig(AdminService adminService) {
-        this.adminService = adminService;
+    public SecurityConfig(@Lazy  CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -26,11 +32,23 @@ public class SecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-       DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-       auth.setUserDetailsService(adminService);
-       auth.setPasswordEncoder(passwordEncoder());
-       return auth;
+       DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+       authProvider.setUserDetailsService(customUserDetailsService);
+       authProvider.setPasswordEncoder(passwordEncoder());
+       return authProvider;
     }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http,
+                                             PasswordEncoder passwordEncoder,
+                                             @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder)
+                .and()
+                .build();
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

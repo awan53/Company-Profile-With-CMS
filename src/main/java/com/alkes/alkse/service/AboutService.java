@@ -28,6 +28,10 @@ public class AboutService {
         return aboutRepository.save(about);
     }
 
+    public About getAbout() {
+        return aboutRepository.findAll().stream().findFirst().orElse(null);
+    }
+
     public void deletAbout(Long id) {
         aboutRepository.deleteById(id);
     }

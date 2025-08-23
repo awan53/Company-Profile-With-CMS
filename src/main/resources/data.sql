@@ -6,7 +6,7 @@ INSERT INTO aboutus (companyname, mission, vision) VALUES
 
 
 INSERT INTO admin (username, password, role)
-VALUES ('ADMIN', '$2a$10$9.3seaSMW4paJc2ewC4msOMEu35AASoZhhVxXFmua1LVKdv8f2.OW', 'ADMIN');
+VALUES ('ADMIN', '$2a$10$9.3seaSMW4paJc2ewC4msOMEu35AASoZhhVxXFmua1LVKdv8f2.OW', 'ROLE_ADMIN');
 
 -- Tambahkan data kategori awal
 INSERT INTO category (name) VALUES ('Termometer');

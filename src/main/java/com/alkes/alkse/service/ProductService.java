@@ -20,6 +20,10 @@ public class ProductService {
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
+    public List<Product> getTop3Products() {
+        return productRepository.findTop3ByOrderByIdDesc();
+    }
+
     public Optional<Product> findProductById(Long id) {
         return productRepository.findById(id);
     }

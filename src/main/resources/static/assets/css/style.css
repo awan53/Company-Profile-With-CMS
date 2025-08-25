@@ -121,14 +121,17 @@ a {
     color: rgba(255, 255, 255, 0.5);
     margin-botom: 30px; }
   .hero .hero-img-wrap {
-    position: relative; }
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 600px;
+    overflow: hidden;
+    }
     .hero .hero-img-wrap img {
-      position: relative;
-      top: 0px;
-      right: 0px;
-      z-index: 2;
-      max-width: 780px;
-      left: -20px; }
+       max-width: 100%;
+        max-height: auto;
+        object-fit: contain; }
       @media (min-width: 768px) {
         .hero .hero-img-wrap img {
           right: 0px;

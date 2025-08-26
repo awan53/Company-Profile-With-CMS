@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import com.alkes.alkse.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alkes.alkse.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ public class ProductService {
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
+
     public List<Product> getTop3Products() {
         return productRepository.findTop3ByOrderByIdDesc();
     }
@@ -27,10 +30,26 @@ public class ProductService {
     public Optional<Product> findProductById(Long id) {
         return productRepository.findById(id);
     }
+
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
+
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
+    public Page<Product> findPaginatedProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    public Page<Product> searchProducts(String keyword, Pageable pageable) {
+        return productRepository.findByNameContainingIgnoreCaseOrCategory_NameContainingIgnoreCase(keyword, keyword, pageable);
+    }
+
+    public List<Product> searchProduct(String keyword) {
+        return productRepository.findByNameContainingIgnoreCaseOrCategory_NameContainingIgnoreCase(keyword, keyword);
+    }
+
+
 }

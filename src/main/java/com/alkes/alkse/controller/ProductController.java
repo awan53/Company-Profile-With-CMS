@@ -1,6 +1,8 @@
 package com.alkes.alkse.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -36,11 +39,33 @@ public class ProductController {
     }
 
     @GetMapping
-    public String listProducts(Model model) {
-        // Gunakan nama metode yang konsisten
-        model.addAttribute("products", productService.findAllProducts());
+    public String listProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+                               @RequestParam(required = false) String q,
+                               Model model) {
+      Page<Product> productPage;
+      if (q != null && !q.isEmpty()){
+          productPage = productService.searchProducts(q, PageRequest.of(page, size));
+          model.addAttribute("keyword", q);
+        } else {
+            productPage = productService.findPaginatedProducts(PageRequest.of(page, size));
+            model.addAttribute("keyword", "");
+      }
+
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+
         return "admin/product/list";
     }
+
+    @GetMapping("/search")
+    @ResponseBody
+    public List<Product> search(@RequestParam String q){
+        return productService.searchProduct(q);
+    }
+
+
 
     @GetMapping("/form")
     public String showProductForm(@RequestParam(required = false) Long id, Model model) {

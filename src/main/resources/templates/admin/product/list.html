@@ -56,6 +56,19 @@
                             </div>
 
                             <div class="card-body">
+
+                                <!-- fitur serceh-->
+                                <div class="card-header">
+                                    <form class="d-flex" th:action="@{/admin/product}" method="get">
+                                        <input class="form-control me-2" type="search" placeholder="Cari produk atau kategori"
+                                               name="q" th:value="${keyword}" style="max-width: 300px;" id="productSearch">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="bi bi-search"></i> Cari
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- fitur serceh-->
+
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
@@ -71,7 +84,7 @@
 
                                     <tbody>
                                     <tr th:each="product, iStat : ${products}">
-                                        <td th:text="${iStat.index + 1}"></td>
+                                        <td th:text="${currentPage * 5 + iStat.index + 1}"></td>
                                         <td th:text="${product.name}"></td>
                                         <td th:text="${product.description}"></td>
                                         <td th:text="${product.price}"></td>
@@ -85,6 +98,33 @@
                                         </td>
                                     </tr>
                                 </table>
+                                <!-- Pagination Controls -->
+                                <div aria-label="Page navigation example"  class="mt-3">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/admin/product(page=${currentPage - 1}, size=5)}"
+                                               tabindex="-1">Previous</a>
+                                        </li>
+
+                                        <!-- Nomor Halaman -->
+                                        <li class="page-item"
+                                            th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                                            th:classappend="${i == currentPage} ? 'active'">
+                                            <a class="page-link"
+                                               th:href="@{/admin/product(page=${i}, size=5)}"
+                                               th:text="${i + 1}">1</a>
+                                        </li>
+
+                                        <!-- Tombol Next -->
+                                        <li class="page-item"
+                                            th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{/admin/product(page=${currentPage + 1}, size=5)}">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Pagination Controls -->
                             </div>
                         </div>
                     </div>
@@ -99,5 +139,27 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
 <script th:src="@{/admin/js/adminlte.js}"></script>
+
+<script>
+    <script>
+  document.getElementById("productSearch").addEventListener("input", function() {
+    let q = this.value;
+    if(q.length === 0) {
+        document.getElementById("productResults").innerHTML = "";
+        return;
+    }
+    fetch(`/admin/product/search?q=` + q)
+      .then(res => res.json())
+      .then(data => {
+        let resultList = document.getElementById("productResults");
+        resultList.innerHTML = "";
+        data.forEach(product => {
+          resultList.innerHTML += `<li>${product.name}</li>`;
+        });
+      });
+  });
+</script>
+</script>
+
 </body>
 </html>

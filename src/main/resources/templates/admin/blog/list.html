@@ -52,19 +52,19 @@
             </div>
           </div>
           <div class="card-body">
-            <!-- Serce Blog-->
+            <!-- search Blog-->
             <div class="card-header">
               <form class="d-flex" th:action="@{/admin/blog}" method="get">
                 <input class="form-control me-2" type="search" placeholder="Cari Blog"
-                       name="q" th:value="${keyword}" style="max-width: 300px;">
+                       name="q" th:value="${keyword}" style="max-width: 300px;" id="blogSearchBox">
                 <button class="btn btn-primary" type="submit">
                   <i class="bi bi-search"></i> Cari
                 </button>
               </form>
             </div>
-            <!-- Serce Blog-->
+            <!-- search Blog-->
 
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="blogBody">
               <thead>
               <tr>
                 <th style="width: 10px">#</th>
@@ -81,9 +81,9 @@
                   <img th:src="@{${blog.iconUrl}}" style="width: 50px; height: 50px; object-fit: cover;" alt="Blog Icon" />
                 </td>
                 <td th:text="${blog.title}">Judul Blog</td>
-                <td th:text="${blog.description}">Deskripsi Singkat Blog</td>
+                <td th:text="${#strings.length(blog.description) > 50 ? #strings.substring(blog.description, 0, 50)+ '...' : blog.description}">Deskripsi Singkat Blog</td>
                 <td>
-                  <a th:href="@{/admin/blog/form(id=${blog.id})}" class="btn btn-sm btn-info">
+                  <a th:href="@{/admin/blog/form(id=${blog.id})}" class="btn btn-sm btn-primary">
                     <i class="bi bi-pencil-square"></i> Edit
                   </a>
                   <a th:href="@{/admin/blog/delete(id=${blog.id})}" onclick="return confirm('Apakah Anda yakin ingin menghapus blog ini?');" class="btn btn-sm btn-danger">
@@ -131,5 +131,43 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
 <script th:src="@{/admin/js/adminlte.js}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const searchBox = document.getElementById("blogSearchBox");
+      const blogBody = document.getElementById("blogBody");
+
+      searchBox.addEventListener("input", function() {
+          const keyword = this.value;
+
+          fetch(`/admin/blog/search?q=${encodeURIComponent(keyword)}`)
+              .then(res => res.json())
+              .then(data => {
+                  blogBody.innerHTML = ""; // Bersihkan tabel
+
+                  data.forEach((blog, index) => {
+                      const row = document.createElement("tr");
+
+                      row.innerHTML = `
+                          <td>${index + 1}</td>
+                          <td><img src="${blog.iconUrl}" style="width: 50px; height: 50px; object-fit: cover;" alt="Blog Icon" /></td>
+                          <td>${blog.title}</td>
+                          <td>${blog.description}</td>
+                          <td>
+                              <a href="/admin/blog/form?id=${blog.id}" class="btn btn-sm btn-info">
+                                  <i class="bi bi-pencil-square"></i> Edit
+                              </a>
+                              <a href="/admin/blog/delete?id=${blog.id}" onclick="return confirm('Apakah Anda yakin ingin menghapus blog ini?');" class="btn btn-sm btn-danger">
+                                  <i class="bi bi-trash"></i> Hapus
+                              </a>
+                          </td>
+                      `;
+
+                      blogBody.appendChild(row);
+                  });
+              });
+      });
+  });
+</script>
+
 </body>
 </html>

@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -54,6 +56,12 @@ public class BlogController {
         return "admin/blog/list";
     }
 
+    @GetMapping("/search")
+    @ResponseBody
+    public List<Blog> search(@RequestParam String q){
+        return blogService.searchBlogs(q, Pageable.unpaged()).getContent();
+    }
+
     @GetMapping("/form")
     public String showBlogForm(@RequestParam(required = false) Long id, Model model) {
         BlogFormDTO blogFormDto = new BlogFormDTO();
@@ -70,7 +78,7 @@ public class BlogController {
     }
 
     @PostMapping("/save")
-    public String saveBlog(@Valid @ModelAttribute("blogFormDto") BlogFormDTO blogFormDto, BindingResult result) {
+    public String saveBlog(@Valid @ModelAttribute("blogFormDto") BlogFormDTO blogFormDto, BindingResult result, Model model) {
 
         if(result.hasErrors()){
             return "admin/blog/form";
@@ -100,6 +108,11 @@ public class BlogController {
                 imageUrl = "/uploads/blogs/" + fileName;
             } catch (IOException e) {
                 return "redirect:/admin/blog/form?error";
+            }
+        } else {
+            if (blogFormDto.getId() == null) {
+                model.addAttribute("error", "Icon file is required for new blog entries.");
+                return "admin/blog/form";
             }
         }
         blog.setTitle(blogFormDto.getTitle());

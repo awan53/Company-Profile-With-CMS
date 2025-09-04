@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="~{public/fragment/head :: head}"></head>
+<body>
+<div th:replace="~{public/fragment/navbar :: navbar}"></div>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 th:text="${blog.title}">Judul Blog</h1>
+            <div class="mb-4">
+                <img th:src="@{${blog.iconUrl}}" alt="Image"  class="img-fluid rounded shadow-sm">
+            </div>
+            <div th:utext="${blog.description}">
+				<p>Isi konten blog di sini...</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div th:replace="~{public/fragment/footer :: footer}"></div>
+</body>
+</html>
+

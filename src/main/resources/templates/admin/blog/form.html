@@ -67,9 +67,19 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="iconFile">Upload Gambar</label>
-                                        <input type="file" id="iconFile" name="iconFile" class="form-control-file" required/>
+                                        <label for="iconFile">Gambar/Icon</label>
+
+                                        <!-- Input file: hanya 1 -->
+                                        <input type="file"
+                                               th:field="*{iconFile}"
+                                               id="iconFile"
+                                               class="form-control-file"
+                                               th:attr="required=${blogFormDto.id == null}" />
+
+                                        <!-- Preview hanya saat edit (data sudah ada) -->
+
                                     </div>
+
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Simpan</button>

@@ -15,7 +15,15 @@ public class ProductFormDTO {
     private String imageUrl;
     private MultipartFile imageFile;
     @NotNull(message = "Category is required")
-    private Category category;
+    private Long categoryId;
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public Long getId() {
         return id;
@@ -65,11 +73,5 @@ public class ProductFormDTO {
         this.imageFile = imageFile;
     }
 
-    public Category getCategory() {
-        return category;
-    }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }

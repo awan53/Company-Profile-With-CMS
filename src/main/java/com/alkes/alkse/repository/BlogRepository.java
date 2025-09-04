@@ -10,10 +10,15 @@ import java.util.List;
 
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Long> {
+    // Ambil semua blog dengan pagination
     Page<Blog> findAll(Pageable pageable);
 
-    List<Blog> findTop4ByOrderByIdDesc();
+    // Ambil 4 blog terbaru
+    List<Blog> findTop3ByOrderByIdDesc();
 
+    // Search blog berdasarkan title dengan pagination
     Page<Blog>findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+
+
 
 }

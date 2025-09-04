@@ -1,4 +1,5 @@
 package com.alkes.alkse.controller;
+import com.alkes.alkse.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -66,7 +67,6 @@ public class ProductController {
     }
 
 
-
     @GetMapping("/form")
     public String showProductForm(@RequestParam(required = false) Long id, Model model) {
         ProductFormDTO productFormDto = new ProductFormDTO();
@@ -77,7 +77,9 @@ public class ProductController {
             productFormDto.setDescription(product.getDescription());
             productFormDto.setPrice(product.getPrice());
             productFormDto.setImageUrl(product.getImageUrl());
-            productFormDto.setCategory(product.getCategory());
+            if (product.getCategory() != null) {
+                productFormDto.setCategoryId(product.getCategory().getId()); // <<< penting
+            }
         }
         model.addAttribute("productFormDto", productFormDto);
         model.addAttribute("categories", categoryService.findAllCategories());
@@ -90,59 +92,76 @@ public class ProductController {
                               Model model) {
 
         if (result.hasErrors()) {
-            // Jika ada error validasi, muat kembali form dengan data yang sudah ada
-            // Pastikan Anda memuat ulang model yang diperlukan, seperti 'categories'
             model.addAttribute("categories", categoryService.findAllCategories());
             return "admin/product/form";
         }
 
         Product product;
-        if (productFormDto.getId() != null) {
-            // Mode Edit: Ambil produk yang sudah ada dari database
+        boolean isUpdate = productFormDto.getId() != null;
+
+        if (isUpdate) {
+            // Mode Edit
             product = productService.findProductById(productFormDto.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + productFormDto.getId()));
         } else {
-            // Mode Tambah: Buat instance produk baru
+            // Mode Tambah
             product = new Product();
         }
 
-        // Tetapkan properti dari DTO ke entitas Product
+        // Set field biasa
         product.setName(productFormDto.getName());
         product.setDescription(productFormDto.getDescription());
         product.setPrice(productFormDto.getPrice());
-        product.setCategory(productFormDto.getCategory());
 
+        // Set kategori
+        if (productFormDto.getCategoryId() != null) {
+            Category category = categoryService.findCategoryById(productFormDto.getCategoryId())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + productFormDto.getCategoryId()));
+            product.setCategory(category);
+        }
+
+        // Upload image
         MultipartFile imageFile = productFormDto.getImageFile();
-        if (imageFile != null && !imageFile.isEmpty()) {
-            try {
+
+        try {
+            if (imageFile != null && !imageFile.isEmpty()) {
+                // Upload gambar baru
                 String productUploadDir = uploadDirConfig + "/products";
                 Path uploadDir = Paths.get(productUploadDir);
 
-                if (!Files.exists(uploadDir)){
+                if (!Files.exists(uploadDir)) {
                     Files.createDirectories(uploadDir);
                 }
                 String fileName = UUID.randomUUID().toString() + "-" + imageFile.getOriginalFilename();
                 Path filePath = uploadDir.resolve(fileName);
                 Files.copy(imageFile.getInputStream(), filePath);
 
-                // Simpan URL relatif ke entitas produk
                 product.setImageUrl("/uploads/products/" + fileName);
 
-            } catch (IOException e) {
-                // Tangani pengecualian I/O, misalnya dengan mencatat error
-                e.printStackTrace();
-                // Anda bisa tambahkan pesan error ke model jika perlu
-                return "admin/product/form";
+            } else {
+                if (isUpdate) {
+                    // Update tapi tidak upload gambar baru → tetap pakai lama
+                    product.setImageUrl(productFormDto.getImageUrl());
+                } else {
+                    // Create tapi tidak ada gambar → tolak
+                    model.addAttribute("categories", categoryService.findAllCategories());
+                    model.addAttribute("errorMessage", "Image is required for new product");
+                    return "admin/product/form";
+                }
             }
-        } else if (productFormDto.getImageUrl() != null) {
-            // Jika tidak ada file baru diunggah, pertahankan URL gambar yang sudah ada
-            product.setImageUrl(productFormDto.getImageUrl());
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("categories", categoryService.findAllCategories());
+            model.addAttribute("errorMessage", "Failed to upload image");
+            return "admin/product/form";
         }
 
-        // Simpan entitas produk yang sudah diperbarui atau baru
+        // Simpan produk
         productService.saveProduct(product);
         return "redirect:/admin/product";
     }
+
+
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {

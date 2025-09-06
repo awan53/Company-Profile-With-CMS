@@ -2,17 +2,12 @@ package com.alkes.alkse.controller;
 import com.alkes.alkse.model.About;
 import com.alkes.alkse.service.BlogService;
 import com.alkes.alkse.service.ProductService;
+import com.alkes.alkse.model.ContactInfo;
+import com.alkes.alkse.service.ContactInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.alkes.alkse.service.AboutService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/")
@@ -21,10 +16,15 @@ public class PublicController {
     private final AboutService aboutService;
     private final ProductService productService;
     private final BlogService blogService;
-    public PublicController(AboutService aboutService, ProductService productService, BlogService blogService) {
+    private ContactInfoService contactInfoService;
+
+    public PublicController(AboutService aboutService, ProductService productService, BlogService blogService,
+                            ContactInfoService contactInfoService) {
+
         this.aboutService = aboutService;
         this.productService = productService;
         this.blogService = blogService;
+        this.contactInfoService = contactInfoService;
     }
 
     @GetMapping
@@ -69,21 +69,28 @@ public class PublicController {
                 .orElse("public/error-404");
     }
 
-   //    @GetMapping("/blogdetail")
-//    public String blogdetail(Long id, Model model) {
-//        model.addAttribute("id", id);
-//        return "public/blogdetail";
-//    }
-
-
-
+    // ✅ Tampilkan form Contact Us
     @GetMapping("/countactus")
     public String countactus(Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
+        model.addAttribute("contactInfo", new ContactInfo());
         model.addAttribute("activePage", "countactus");
-        return "countactus"; // file src/main/resources/templates/public/blog.html
+        return "countactus";
+        // file src/main/resources/templates/public/blog.html
+
     }
+
+    // ✅ Proses kirim pesan Contact Us
+    @PostMapping("/contact")
+    public String sendContact(@ModelAttribute("contactInfo") ContactInfo contactInfo,
+                              Model model) {
+        contactInfoService.saveAndNotify(contactInfo);
+        model.addAttribute("successMessage", "Pesan Anda berhasil dikirim. Admin akan segera menghubungi Anda.");
+        model.addAttribute("activePage", "contactus");
+        return "countactus"; // kembali ke form dengan pesan sukses
+    }
+
+
 
     @GetMapping("/services")
     public String servicesus(Model model) {
@@ -100,5 +107,16 @@ public class PublicController {
         model.addAttribute("products", productService.findAllProducts());
         model.addAttribute("activePage", "shop");
         return "shop"; // file src/main/resources/templates/public/blog.html
+    }
+
+    @GetMapping("/shop/{id}")
+    public String shopbyidDetail(@PathVariable Long id, Model model) {
+        About about = aboutService.getAbout();
+        model.addAttribute("about", about);
+        model.addAttribute("activePage", "products");
+
+        return productService.findProductById(id).map(product -> {model.addAttribute("product", product);
+            return "public/shopdetail"; // sesuai folder templates/public/
+        }).orElse("public/error-404");
     }
 }

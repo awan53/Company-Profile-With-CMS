@@ -2,8 +2,6 @@ package com.alkes.alkse.model;
 import jakarta.persistence.*;
 
 
-
-
 @Entity
 @Table(name = "product")
 public class Product {

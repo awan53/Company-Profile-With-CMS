@@ -11,14 +11,18 @@ public class ContactInfo {
     private String address;
     private String phone;
     private String email;
-    private String website;
+    private String NmUser;
+    private String message;
+
 
     public ContactInfo() {}
-    public ContactInfo(String address, String phone, String email, String website) {
+    public ContactInfo(String address, String phone, String email, String NmUser, String message) {
         this.address = address;
+        this.NmUser = NmUser;
         this.phone = phone;
         this.email = email;
-        this.website = website;
+        this.message = message;
+
     }
 
     public Long getId() {
@@ -53,11 +57,19 @@ public class ContactInfo {
         this.email = email;
     }
 
-    public String getWebsite() {
-        return website;
+    public String getNmUser() {
+        return NmUser;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setNmUser(String nmUser) {
+        NmUser = nmUser;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

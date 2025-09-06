@@ -36,6 +36,15 @@ CREATE TABLE product(
      CONSTRAINT fk_product_category FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
+IF NOT EXISTS(
+ SELECT * FROM sys.colomns
+ WHERE Name = N'stock' AND Object_ID = Object_ID(N'product')
+)
+BEGIN
+ALTER TABLE product ADD stock NOT NULL DEFAULT 0;
+END
+
+
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='admin' AND xtype='U')
 CREATE TABLE admin (
     id BIGINT IDENTITY(1,1) PRIMARY KEY,

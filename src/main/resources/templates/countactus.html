@@ -6,10 +6,48 @@
 <body>
 <div th:replace="~{public/fragment/navbar :: navbar}"></div>
 
-<div th:replace="~{public/fragment/hero :: hero}"></div>
 
-<div class="product-section">
 
+<div class="product-section container mt-5">
+    <h2 class="text-center mb-4">Hubungi Kami</h2>
+
+    <!-- ✅ Pesan sukses -->
+    <div th:if="${successMessage}" class="alert alert-success text-center">
+        <span th:text="${successMessage}"></span>
+    </div>
+
+    <!-- ✅ Form Contact Us -->
+    <form th:action="@{/contact}" th:object="${contactInfo}" method="post" class="row g-3">
+
+        <div class="col-md-6">
+            <label class="form-label">Nama</label>
+            <input type="text" th:field="*{nmUser}" class="form-control" placeholder="Masukkan nama anda" required>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" th:field="*{email}" class="form-control" placeholder="Masukkan email" required>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Telepon</label>
+            <input type="text" th:field="*{phone}" class="form-control" placeholder="Nomor telepon">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Alamat</label>
+            <input type="text" th:field="*{address}" class="form-control" placeholder="Alamat">
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Pesan</label>
+            <textarea th:field="*{message}" class="form-control" rows="5" placeholder="Tulis pesan anda" required></textarea>
+        </div>
+
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary px-4">Kirim Pesan</button>
+        </div>
+    </form>
 </div>
 
 <div th:replace="~{public/fragment/footer :: footer}"></div>

@@ -29,7 +29,7 @@ public class AboutService {
     }
 
     public About getAbout() {
-        return aboutRepository.findAll().stream().findFirst().orElse(null);
+        return aboutRepository.findAll().stream().findFirst().orElse(new About());
     }
 
     public void deleteAbout(Long id) {

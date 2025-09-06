@@ -12,13 +12,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-				<h2 class="mb-4 section-title">Company Name</h2>
-				<p class="mb-4">Mission </p>
-				<p class="mb-4">vision</p>
-				<p><a href="shop.html" class="btn">Explore</a></p>
+				<h2 class="mb-4 section-title">All Product</h2>
+				<p><a th:href="@{/shop}" class="btn">Explore</a></p>
 			</div>
 			<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="product : ${products}">
-				<a class="product-item" href="cart.html">
+				<a class="product-item" th:href="@{/shop/{id}(id=${product.id})}">
 					<img th:src="@{${product.imageUrl}}" class="img-fluid product-thumbnail">
 					<h3 th:text="${product.name}">Nordic Chair</h3>
 					<strong th:text="${product.price}">$50.00</strong>
@@ -200,7 +198,7 @@
 				<h2 class="section-title">Recent Blog</h2>
 			</div>
 			<div class="col-md-6 text-start text-md-end">
-				<a href="#" class="more">View All Posts</a>
+				<a th:href="@{/blog}" class="more">View All Posts</a>
 			</div>
 		</div>
 

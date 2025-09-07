@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Balas Pesan</title>
+    <link rel="stylesheet" th:href="@{/admin/css/adminlte.css}"/>
+</head>
+<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
+<div class="app-wrapper">
+
+    <div th:replace="~{admin/fragments/head :: head}"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+    <main class="app-main">
+        <div class="app-content-header">
+            <div class="container-fluid">
+                <h3>Balas Pesan</h3>
+            </div>
+        </div>
+
+        <div class="app-content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{'/admin/contactinfo/' + ${contact.id} + '/reply'}" method="post">
+                            <div class="mb-3">
+                                <label>Email Tujuan</label>
+                                <input type="email" class="form-control" th:value="${contact.email}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label>Subjek</label>
+                                <input type="text" class="form-control" name="subject" value="Balasan dari Admin">
+                            </div>
+                            <div class="mb-3">
+                                <label>Pesan Balasan</label>
+                                <textarea class="form-control" name="replyMessage" rows="6" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Kirim Balasan</button>
+                            <a th:href="@{/admin/contactinfo}" class="btn btn-secondary">Batal</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+</body>
+</html>

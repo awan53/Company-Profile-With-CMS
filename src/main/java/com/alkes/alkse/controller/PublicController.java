@@ -29,8 +29,7 @@ public class PublicController {
 
     @GetMapping
     public String index(Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
         model.addAttribute("products", productService.getTop3Products());
         model.addAttribute("activePage", "home");
         model.addAttribute("blogs", blogService.getTop3ByOrderByIdDesc());
@@ -39,16 +38,14 @@ public class PublicController {
 
     @GetMapping("/about")
     public String aboutUs(Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
         model.addAttribute("activePage", "about");
         return "about"; // file src/main/resources/templates/public/about.html
     }
 
     @GetMapping("/blog")
     public String blogus(Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
         model.addAttribute("blogs", blogService.findAllBlog());
         model.addAttribute("activePage", "blog");
 
@@ -57,8 +54,7 @@ public class PublicController {
 
     @GetMapping("/blog/{id}")
     public String blogbyidDetail(@PathVariable Long id, Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
         model.addAttribute("activePage", "blog");
 
         return blogService.findByIdBlog(id)
@@ -94,16 +90,14 @@ public class PublicController {
 
     @GetMapping("/services")
     public String servicesus(Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
         model.addAttribute("activePage", "services");
         return "services"; // file src/main/resources/templates/public/blog.html
     }
 
     @GetMapping("/shop")
     public String shop(Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
         model.addAttribute("products", productService.findAllProducts());
         model.addAttribute("activePage", "shop");
         return "shop"; // file src/main/resources/templates/public/blog.html
@@ -111,8 +105,7 @@ public class PublicController {
 
     @GetMapping("/shop/{id}")
     public String shopbyidDetail(@PathVariable Long id, Model model) {
-        About about = aboutService.getAbout();
-        model.addAttribute("about", about);
+
         model.addAttribute("activePage", "products");
 
         return productService.findProductById(id).map(product -> {model.addAttribute("product", product);

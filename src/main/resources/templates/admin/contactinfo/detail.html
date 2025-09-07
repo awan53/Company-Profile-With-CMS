@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Pesan</title>
+    <link rel="stylesheet" th:href="@{/admin/css/adminlte.css}"/>
+</head>
+<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
+<div class="app-wrapper">
+
+    <div th:replace="~{admin/fragments/head :: head}"></div>
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+    <main class="app-main">
+        <div class="app-content-header">
+            <div class="container-fluid">
+                <h3>Detail Pesan</h3>
+            </div>
+        </div>
+
+        <div class="app-content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <p><b>Nama:</b> <span th:text="${contact.nmUser}"></span></p>
+                        <p><b>Email:</b> <span th:text="${contact.email}"></span></p>
+                        <p><b>Telepon:</b> <span th:text="${contact.phone}"></span></p>
+                        <p><b>Alamat:</b> <span th:text="${contact.address}"></span></p>
+                        <p><b>Pesan:</b></p>
+                        <p th:text="${contact.message}"></p>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{'/admin/contactinfo/' + ${contact.id} + '/reply'}" class="btn btn-primary">Balas Pesan</a>
+                        <a th:href="@{/admin/contactinfo}" class="btn btn-secondary">Kembali</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+</body>
+</html>

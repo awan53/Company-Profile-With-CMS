@@ -13,15 +13,17 @@ public class ContactInfo {
     private String email;
     private String NmUser;
     private String message;
-
+    @Column(name ="status")
+    private String status = "Menunggu balasan";
 
     public ContactInfo() {}
-    public ContactInfo(String address, String phone, String email, String NmUser, String message) {
+    public ContactInfo(String address, String phone, String email, String NmUser, String message, String status) {
         this.address = address;
         this.NmUser = NmUser;
         this.phone = phone;
         this.email = email;
         this.message = message;
+        this.status = status;
 
     }
 
@@ -71,5 +73,13 @@ public class ContactInfo {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

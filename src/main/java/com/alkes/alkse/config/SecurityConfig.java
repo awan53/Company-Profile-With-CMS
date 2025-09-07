@@ -42,11 +42,14 @@ public class SecurityConfig {
     public AuthenticationManager authManager(HttpSecurity http,
                                              PasswordEncoder passwordEncoder,
                                              @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
+        AuthenticationManagerBuilder authBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+
+        authBuilder
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder)
-                .and()
-                .build();
+                .passwordEncoder(passwordEncoder);
+
+        return authBuilder.build();
     }
 
 

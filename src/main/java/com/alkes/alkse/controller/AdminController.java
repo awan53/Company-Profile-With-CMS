@@ -20,6 +20,7 @@ public class AdminController {
     @GetMapping
     public String listAdmins(Model model) {
         model.addAttribute("admins", adminService.findAll());
+        model.addAttribute("activePage", "setadmin");
         return "admin/setadmin/list";
     }
 

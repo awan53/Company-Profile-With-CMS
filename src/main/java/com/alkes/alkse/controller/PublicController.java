@@ -88,12 +88,7 @@ public class PublicController {
 
 
 
-    @GetMapping("/services")
-    public String servicesus(Model model) {
 
-        model.addAttribute("activePage", "services");
-        return "services"; // file src/main/resources/templates/public/blog.html
-    }
 
     @GetMapping("/shop")
     public String shop(Model model) {

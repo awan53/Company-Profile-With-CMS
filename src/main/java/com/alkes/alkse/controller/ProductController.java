@@ -54,6 +54,7 @@ public class ProductController {
 
 
         model.addAttribute("products", productPage.getContent());
+        model.addAttribute("activePage", "product");
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
 

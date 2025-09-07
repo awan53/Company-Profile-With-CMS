@@ -194,6 +194,30 @@
   }
 }
 
+/* Biar icon sejajar dengan teks */
+.nav-sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* jarak icon ke teks */
+  padding: 8px 12px;
+}
+
+.nav-sidebar .nav-link .nav-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Warna ketika aktif */
+.nav-sidebar .nav-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.nav-sidebar .nav-link.active .nav-icon {
+  color: #fff;
+}
+
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);

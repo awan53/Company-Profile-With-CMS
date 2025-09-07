@@ -40,6 +40,7 @@ public class AboutController {
         List<About> aboutList = aboutService.findAll();
         model.addAttribute("about", about);
         model.addAttribute("aboutList", aboutList);
+        model.addAttribute("activePage", "about");
 
         return "admin/about/list";
     }

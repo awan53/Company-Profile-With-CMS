@@ -21,6 +21,7 @@ public class CategoryController {
     @GetMapping
     public String listCategories(Model model) {
         model.addAttribute("categories", categoryService.findAllCategories());
+        model.addAttribute("activePage", "category");
         return "admin/category/list";
     }
 

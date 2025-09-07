@@ -2,7 +2,6 @@ package com.alkes.alkse.controller;
 
 import com.alkes.alkse.model.ContactInfo;
 import com.alkes.alkse.service.ContactInfoService;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +22,7 @@ public class AdminContactInfoController {
    @GetMapping
    public String listContactInfo(Model model) {
         model.addAttribute("messages", contactInfoService.findAll());
+        model.addAttribute("activePage", "contactinfo");
        return "admin/contactinfo/list";
    }
 

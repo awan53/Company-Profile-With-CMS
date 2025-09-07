@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" th:fragment="navbar" arial-label="Furni navigation bar">
     <div class="container">
-        <a class="navbar-brand" th:text="${about.companyname}">Nama Perusahan<span>.</span></a>
+        <a class="navbar-brand" th:text="${about.companyname}" th:href="@{/}">Nama Perusahan<span>.</span></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -14,13 +14,10 @@
                     <a class="nav-link" th:href="@{/}" th:classappend="${activePage == 'home'} ? ' active' : ''">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/shop}"  th:classappend="${activePage == 'shop'} ? ' active' : ''">product</a>
+                    <a class="nav-link" th:href="@{/shop}"  th:classappend="${activePage == 'shop'} ? ' active' : ''">Product</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/about}" th:classappend="${activePage == 'about'} ? ' active' : ''">About us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/services}" th:classappend="${activePage == 'services'} ? ' active' : ''">Services</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/blog}" th:classappend="${activePage == 'blog'} ? ' active' : ''">Blog</a>
@@ -30,10 +27,6 @@
                 </li>
             </ul>
 
-            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li><a class="nav-link" href="#"><img th:src="@{/assets/images/user.svg}"></a></li>
-                <li><a class="nav-link" th:href="@{/cart}"><img th:src="@{/assets/images/cart.svg}"></a></li>
-            </ul>
         </div>
     </div>
 </nav>

@@ -50,8 +50,10 @@ public class BlogController {
         }
 
         model.addAttribute("blogs", blogPage.getContent());
+        model.addAttribute("activePage", "blog");
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", blogPage.getTotalPages());
+
 
         return "admin/blog/list";
     }

@@ -1,5 +1,5 @@
 package com.alkes.alkse.controller;
-import com.alkes.alkse.model.About;
+
 import com.alkes.alkse.service.BlogService;
 import com.alkes.alkse.service.ProductService;
 import com.alkes.alkse.model.ContactInfo;
@@ -33,14 +33,14 @@ public class PublicController {
         model.addAttribute("products", productService.getTop3Products());
         model.addAttribute("activePage", "home");
         model.addAttribute("blogs", blogService.getTop3ByOrderByIdDesc());
-        return "/index"; // file src/main/resources/templates/public/index.html
+        return "public/index"; // file src/main/resources/templates/public/index.html
     }
 
     @GetMapping("/about")
     public String aboutUs(Model model) {
 
         model.addAttribute("activePage", "about");
-        return "about"; // file src/main/resources/templates/public/about.html
+        return "public/about"; // file src/main/resources/templates/public/about.html
     }
 
     @GetMapping("/blog")
@@ -49,7 +49,7 @@ public class PublicController {
         model.addAttribute("blogs", blogService.findAllBlog());
         model.addAttribute("activePage", "blog");
 
-        return "blog"; // file src/main/resources/templates/public/blog.html
+        return "public/blog"; // file src/main/resources/templates/public/blog.html
     }
 
     @GetMapping("/blog/{id}")
@@ -71,7 +71,7 @@ public class PublicController {
 
         model.addAttribute("contactInfo", new ContactInfo());
         model.addAttribute("activePage", "countactus");
-        return "countactus";
+        return "public/countactus";
         // file src/main/resources/templates/public/blog.html
 
     }
@@ -83,7 +83,7 @@ public class PublicController {
         contactInfoService.saveAndNotify(contactInfo);
         model.addAttribute("successMessage", "Pesan Anda berhasil dikirim. Admin akan segera menghubungi Anda.");
         model.addAttribute("activePage", "contactus");
-        return "countactus"; // kembali ke form dengan pesan sukses
+        return "public/countactus"; // kembali ke form dengan pesan sukses
     }
 
 
@@ -95,7 +95,7 @@ public class PublicController {
 
         model.addAttribute("products", productService.findAllProducts());
         model.addAttribute("activePage", "shop");
-        return "shop"; // file src/main/resources/templates/public/blog.html
+        return "public/shop"; // file src/main/resources/templates/public/blog.html
     }
 
     @GetMapping("/shop/{id}")

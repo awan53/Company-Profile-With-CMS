@@ -1,14 +1,32 @@
-# Gunakan JRE Java 17
-FROM eclipse-temurin:17-jre-jammy
+# Gunakan image OpenJDK sebagai base
+FROM eclipse-temurin:17-jdk-jammy as builder
 
-# Set workdir
+# Set working directory
 WORKDIR /app
 
-# Copy hasil build jar dari IntelliJ (Maven/Gradle)
-COPY target/*.jar app.jar
+# Copy Maven wrapper dan pom.xml
+COPY pom.xml mvnw* ./
+COPY .mvn .mvn
 
-# Expose port aplikasi
+# Download dependencies (cache layer)
+RUN ./mvnw dependency:go-offline
+
+# Copy seluruh source code
+COPY src src
+
+# Build aplikasi (skip test biar cepat)
+RUN ./mvnw clean package -DskipTests
+
+# --- Stage kedua untuk image final ---
+FROM eclipse-temurin:17-jre-jammy
+
+WORKDIR /app
+
+# Copy JAR hasil build dari stage builder
+COPY --from=builder /app/target/*.jar app.jar
+
+# Expose port Spring Boot
 EXPOSE 8080
 
-# Jalankan Spring Boot
+# Jalankan aplikasi
 ENTRYPOINT ["java", "-jar", "app.jar"]

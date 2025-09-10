@@ -1,31 +1,13 @@
-# Gunakan image OpenJDK sebagai base
-FROM eclipse-temurin:17-jdk-jammy as builder
+# Gunakan base image Java
+FROM openjdk:17-jdk-alpine
 
-# Set working directory
+# Buat direktori kerja di container
 WORKDIR /app
 
-# Copy Maven wrapper dan pom.xml
-COPY pom.xml mvnw* ./
-COPY .mvn .mvn
+# Copy file jar hasil build ke dalam container
+COPY target/alkse-0.0.1-SNAPSHOT.jar app.jar
 
-# Download dependencies (cache layer)
-RUN ./mvnw dependency:go-offline
-
-# Copy seluruh source code
-COPY src src
-
-# Build aplikasi (skip test biar cepat)
-RUN ./mvnw clean package -DskipTests
-
-# --- Stage kedua untuk image final ---
-FROM eclipse-temurin:17-jre-jammy
-
-WORKDIR /app
-
-# Copy JAR hasil build dari stage builder
-COPY --from=builder /app/target/*.jar app.jar
-
-# Expose port Spring Boot
+# Expose port Spring Boot (default 8080)
 EXPOSE 8080
 
 # Jalankan aplikasi

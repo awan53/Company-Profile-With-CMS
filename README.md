@@ -92,3 +92,26 @@ Buka browser lalu akses:
 ```
 http://localhost:8080/
 ```
+Tampilan Login CMS
+username : admin
+password : admin123
+<img width="1365" height="676" alt="image" src="https://github.com/user-attachments/assets/4b5a40e2-0713-431a-94a6-9283bcb46b3c" />
+
+Tampilan awal dahsboard cms
+<img width="1364" height="675" alt="image" src="https://github.com/user-attachments/assets/f0f3fed3-81db-41b3-bc55-8e5553507b23" />
+
+Edit data about company
+<img width="1360" height="264" alt="image" src="https://github.com/user-attachments/assets/199b6da1-f7f6-4624-8124-5197c01ee146" />
+
+Tampilan Form Data About Company Profile
+<img width="796" height="525" alt="image" src="https://github.com/user-attachments/assets/1c9ad946-0788-4fe0-b28f-7e44725d4012" />
+
+Tampilan Public Company Profile
+<img width="1346" height="651" alt="image" src="https://github.com/user-attachments/assets/20b38321-1753-41f3-8459-84958b63a298" />
+
+
+
+
+
+
+
